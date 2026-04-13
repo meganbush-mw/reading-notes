@@ -17,20 +17,6 @@
       --text-muted: #9a8f82;
       --accent: #7a9e7e;
       --accent-soft: rgba(122, 158, 126, 0.13);
-
-      /* Muted category palette */
-      --tag-time:             #5d8a62;
-      --tag-time-bg:          rgba(93, 138, 98, 0.10);
-      --tag-priority:         #b87c8a;
-      --tag-priority-bg:      rgba(184, 124, 138, 0.10);
-      --tag-decision:         #b89a4a;
-      --tag-decision-bg:      rgba(184, 154, 74, 0.10);
-      --tag-people:           #b8905a;
-      --tag-people-bg:        rgba(184, 144, 90, 0.10);
-      --tag-meetings:         #7a9e7e;
-      --tag-meetings-bg:      rgba(122, 158, 126, 0.10);
-      --tag-contribution:     #c07878;
-      --tag-contribution-bg:  rgba(192, 120, 120, 0.10);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -61,12 +47,10 @@
       letter-spacing: 0.03em;
       color: var(--text);
       text-decoration: none;
+      cursor: pointer;
     }
     .nav-logo span { color: var(--accent); }
-    .nav-count {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
+    .nav-count { font-size: 0.78rem; color: var(--text-muted); }
 
     /* ─── HERO ─── */
     .hero {
@@ -160,11 +144,7 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.07);
       transform: translateY(-2px);
     }
-
-    /* Card body */
-    .book-card-body {
-      padding: 24px 22px 20px;
-    }
+    .book-card-body { padding: 24px 22px 20px; }
     .book-card-badge {
       display: inline-block;
       font-size: 0.68rem;
@@ -205,11 +185,7 @@
       border-radius: 50%;
       display: inline-block;
     }
-    .book-card-date {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
+    .book-card-date { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
 
     /* ─── DETAIL VIEW ─── */
     #detail {
@@ -254,16 +230,8 @@
       align-items: center;
       justify-content: center;
     }
-    .detail-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-    }
-    .detail-cover-placeholder {
-      color: var(--text-muted);
-      opacity: 0.4;
-    }
+    .detail-cover img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .detail-cover-placeholder { color: var(--text-muted); opacity: 0.4; }
     .detail-header-text .badge {
       display: inline-block;
       font-size: 0.68rem;
@@ -283,24 +251,12 @@
       margin-bottom: 5px;
       line-height: 1.2;
     }
-    .detail-header-text .author {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-    }
-    .detail-header-text .detail-stats {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
+    .detail-header-text .author { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px; }
+    .detail-header-text .detail-stats { font-size: 0.8rem; color: var(--text-muted); }
 
-    /* ─── CATEGORIES ─── */
+    /* ─── CATEGORIES — dynamic color via inline CSS vars ─── */
     .category-section { margin-bottom: 34px; }
-    .category-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
+    .category-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
     .category-tag {
       display: inline-flex;
       align-items: center;
@@ -311,18 +267,13 @@
       text-transform: uppercase;
       border-radius: 6px;
       padding: 4px 11px;
+      color: var(--cat-color);
+      background: var(--cat-bg);
     }
-    .tag-time         { color: var(--tag-time);         background: var(--tag-time-bg); }
-    .tag-priority     { color: var(--tag-priority);     background: var(--tag-priority-bg); }
-    .tag-decision     { color: var(--tag-decision);     background: var(--tag-decision-bg); }
-    .tag-people       { color: var(--tag-people);       background: var(--tag-people-bg); }
-    .tag-meetings     { color: var(--tag-meetings);     background: var(--tag-meetings-bg); }
-    .tag-contribution { color: var(--tag-contribution); background: var(--tag-contribution-bg); }
-
     .note-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-left-width: 3px;
+      border-left: 3px solid var(--cat-color);
       border-radius: 9px;
       padding: 16px 18px;
       margin-bottom: 9px;
@@ -330,12 +281,6 @@
       line-height: 1.7;
       color: var(--text);
     }
-    .note-card.time         { border-left-color: var(--tag-time); }
-    .note-card.priority     { border-left-color: var(--tag-priority); }
-    .note-card.decision     { border-left-color: var(--tag-decision); }
-    .note-card.people       { border-left-color: var(--tag-people); }
-    .note-card.meetings     { border-left-color: var(--tag-meetings); }
-    .note-card.contribution { border-left-color: var(--tag-contribution); }
 
     /* ─── EMPTY STATE ─── */
     .empty {
@@ -348,7 +293,7 @@
 
     @media (max-width: 600px) {
       nav { padding: 16px 20px; }
-      .hero { padding: 36px 20px 20px; }
+      .hero { padding: 60px 20px 50px; }
       #library { padding: 0 20px 60px; }
       #detail { padding: 16px 20px 60px; }
       .detail-header { flex-direction: column; gap: 18px; }
@@ -358,7 +303,7 @@
 <body>
 
 <nav>
-  <a class="nav-logo" href="#" onclick="showLibrary()">Megan's <span>Reading Notes</span></a>
+  <span class="nav-logo" onclick="showLibrary()">Megan's <span>Reading Notes</span></span>
   <span class="nav-count" id="nav-count"></span>
 </nav>
 
@@ -380,7 +325,20 @@
 </div>
 
 <script>
+  // Muted palette — colors cycle automatically per category index within each book
+  const PALETTE = [
+    "#5d8a62", // sage green
+    "#b87c8a", // dusty pink
+    "#b89a4a", // warm mustard
+    "#b8905a", // terracotta
+    "#7a9e7e", // olive green
+    "#c07878", // muted rose
+    "#7a8e9e", // slate blue-grey
+    "#9e8a7a", // warm taupe
+  ];
+
   const BOOKS = [
+    // ─────────────────────────────────────────────
     {
       id: "effective-executive",
       title: "The Effective Executive",
@@ -391,7 +349,6 @@
       categories: [
         {
           name: "Time Management",
-          slug: "time",
           notes: [
             "Time is the scarcest resource, and unless it is managed, nothing else can be managed. Analyzing your time is the one accessible, systematic way to understand your work and what really matters in it.",
             "The effective executive knows that to manage time, they first must know where it actually goes.",
@@ -401,7 +358,6 @@
         },
         {
           name: "Priorities & Focus",
-          slug: "priority",
           notes: [
             "If pressures rather than the executive make decisions, the important tasks will predictably be sacrificed. No task is completed until it has become part of organizational action and behavior.",
             "If the executive lets the flow of events determine what he does and what he takes seriously, he will fritter himself away \"operating.\" What executives need are criteria which enable them to work on the truly important — on contributions and results — even though those criteria are not found in the flow of events.",
@@ -412,7 +368,6 @@
         },
         {
           name: "Decision Making",
-          slug: "decision",
           notes: [
             "The effective decision-maker always asks: \"Is a decision really necessary?\" One alternative is always the alternative of doing nothing.",
             "Elements of the effective decision process: (1) Is this a generic situation or an exception? (2) Define the boundary conditions the answer must satisfy. (3) Think through what is \"right\" — the solution that fully satisfies the specifications before considering compromises.",
@@ -421,7 +376,6 @@
         },
         {
           name: "People & Staffing",
-          slug: "people",
           notes: [
             "When staffing, ask: (a) What has he done well? (b) What is he likely to be able to do well? (c) What does he have to learn to get full benefit from his strengths? (d) If I had a son or daughter, would I be willing to have them work under this person?",
             "It is the executive's duty to ruthlessly remove anyone — especially any manager — who consistently fails to perform with high distinction. Leaving such a person on corrupts others and is senseless cruelty to the person themselves.",
@@ -432,7 +386,6 @@
         },
         {
           name: "Meetings",
-          slug: "meetings",
           notes: [
             "Meetings should never be allowed to become the main demand on an executive's time. Too many meetings always bespeak poor structure of jobs and poor organization.",
             "Making a meeting productive requires self-discipline: determine what kind of meeting is appropriate and stick to that format. Terminate as soon as its specific purpose has been accomplished. Good executives don't raise another matter — they sum up and adjourn."
@@ -440,43 +393,218 @@
         },
         {
           name: "Contribution",
-          slug: "contribution",
           notes: [
             "Executives who do not ask themselves \"What can I contribute?\" are not only likely to aim too low, they are likely to aim at the wrong things. Above all, they may define their contribution too narrowly."
+          ]
+        }
+      ]
+    },
+
+    // ─────────────────────────────────────────────
+    {
+      id: "creativity-inc",
+      title: "Creativity, Inc.",
+      author: "Ed Catmull",
+      genre: "Creativity & Culture",
+      dateRead: "February 2026",
+      cover: "https://covers.openlibrary.org/b/isbn/0812993012-L.jpg",
+      categories: [
+        {
+          name: "Quality & The Creative Goal",
+          notes: [
+            "Remember the goal is to make something good — not cheaper, faster, or more efficiently.",
+            "The key is to view conflict as essential — that's how the best ideas survive."
+          ]
+        },
+        {
+          name: "Leadership & Culture",
+          notes: [
+            "Keeping ideas to yourself: employees may see it as sharing their gem, but you are actually failing to protect them from themselves.",
+            "If you don't try to uncover what is unseen and understand its nature, you will be ill-prepared to lead. Dig deeper when things come up — don't stay on the surface level.",
+            "Include people in your problems, not your solutions.",
+            "Challenge preconceptions.",
+            "The past should be our teacher, not our master."
+          ]
+        },
+        {
+          name: "Mistakes & Psychological Safety",
+          notes: [
+            "Use different mindsets for different types of mistakes — \"part of the process\" vs. \"holy cow.\"",
+            "If you \"prove\" and punish, people will think random human mistakes cannot happen — which makes you look naïve and kills honest reporting."
+          ]
+        },
+        {
+          name: "Feedback & Dailies",
+          notes: [
+            "Starting the day with dailies requires empathy, clarity, generosity, and the ability to listen."
+          ]
+        },
+        {
+          name: "Postmortems & Reflection",
+          notes: [
+            "Why postmortems are valuable: consolidate learnings, teach others who weren't there, prevent resentment from festering, force reflection, and pay it forward — what should be asked on the next project.",
+            "\"What are the top 5 things you wouldn't do again?\""
+          ]
+        }
+      ]
+    },
+
+    // ─────────────────────────────────────────────
+    {
+      id: "radical-candor",
+      title: "Radical Candor",
+      author: "Kim Scott",
+      genre: "Management & Feedback",
+      dateRead: "April 2024",
+      cover: "https://covers.openlibrary.org/b/isbn/1250103509-L.jpg",
+      categories: [
+        {
+          name: "Core Framework",
+          notes: [
+            "Bosses are responsible for results — guide the team to achieve results.",
+            "As a manager you must: (1) Create a culture of guidance, (2) Understand what motivates each team member, (3) Drive results collaboratively.",
+            "Care Personally: It's not about memorizing birthdays — understand their aspirations outside of work, what gets them out of bed.",
+            "Challenge Directly: You have to let your team challenge you as well.",
+            "Do not make it personal — \"it makes you sound stupid.\" Do not blame the person's essence — critique the behavior."
+          ]
+        },
+        {
+          name: "Self-Assessment",
+          notes: [
+            "Where do I fall? Ruinous Empathy."
+          ]
+        },
+        {
+          name: "Team Development",
+          notes: [
+            "Rock vs. Super: When someone is a rock, don't force them to be a super. What if they want to be a super but they're not?",
+            "Rock — defined by stability. Make incremental vs. dramatic improvements — 10x vs. 2x.",
+            "Do not put a permanent label on someone — stages of life.",
+            "Managers often spend more time with those struggling vs. those succeeding. Not good for the team as a whole. Moving from great to stunningly great is more inspiring than moving from bad to mediocre.",
+            "Important to put the right people in teaching roles — it should be someone who loves it. Stars: find mentors outside of MW, ask them to teach.",
+            "Performance rhythm: \"Off Quarter,\" \"Solid Quarter,\" \"Exceptional Quarter.\""
+          ]
+        }
+      ]
+    },
+
+    // ─────────────────────────────────────────────
+    {
+      id: "setting-the-table",
+      title: "Setting the Table",
+      author: "Danny Meyer",
+      genre: "Hospitality & Leadership",
+      dateRead: "August 2023",
+      cover: "https://covers.openlibrary.org/b/isbn/0060742755-L.jpg",
+      categories: [
+        {
+          name: "Hospitality Philosophy",
+          notes: [
+            "Service is a monologue; hospitality is a dialog.",
+            "Shared ownership — when clients talk about your company like it is theirs, they can't wait to share it with their friends. This is long-term survival.",
+            "Define our successes on how well we champion each other and our guests.",
+            "Even doing 2 small things per year will add up to 100 gestures per year.",
+            "You're never as good as the best things they say or the worst things — the more we grow, the more we open ourselves up to criticism. Keep centered: know what you stand for, strive for new goals, and always be decent.",
+            "The only way a company can grow is to stay true to its soul.",
+            "Generosity of spirit and a gracious approach to problem solving are, with few exceptions, the most effective way to earn lasting good will."
+          ]
+        },
+        {
+          name: "Operations & Recovery",
+          notes: [
+            "Collecting dots and turning over rocks — ABCD.",
+            "Playing offense (enhancing what's already great) or defense (correcting by delighting).",
+            "The road to success is paved with mistakes well handled.",
+            "Alert people of decisions — otherwise they will be hurt and angry. The team will be willing to hop over ripples if given proper warning.",
+            "Addressing mistakes: Awareness → Acknowledgment (quick) → Apologies (no excuses, just sorry) → Action → Additional generosity."
+          ]
+        },
+        {
+          name: "Community",
+          notes: [
+            "We rely on our team to take an active interest in our community — bonding for the team. Wealth in the community usually comes back around. What do we stand for? Be a part of it."
+          ]
+        },
+        {
+          name: "Hiring & Culture",
+          notes: [
+            "The 51% rule: Optimistic warmth (genuine, glass half full) · Intelligence-seeking · Work ethic (tendency to do something as well as it can be done) · Empathy (awareness of others' feelings and ability to connect) · Self-awareness & integrity.",
+            "Hospitalitarians — personalities that thrive on providing hospitality. Their source of energy is rarely depleted.",
+            "Be precise in hiring and descriptions.",
+            "Fear of being average: the best candidates are unsettled by mediocrity. Can they develop into leadership?"
+          ]
+        }
+      ]
+    },
+
+    // ─────────────────────────────────────────────
+    {
+      id: "10x",
+      title: "10x Is Easier Than 2x",
+      author: "Dan Sullivan & Dr. Benjamin Hardy",
+      genre: "Growth & Strategy",
+      dateRead: "August 2023",
+      cover: "https://covers.openlibrary.org/b/isbn/1401969445-L.jpg",
+      categories: [
+        {
+          name: "Goals & Mindset",
+          notes: [
+            "10x something — path mindset: start with what you want, then work backwards.",
+            "Challenge the team to create a new way, not a faster version of the old way.",
+            "Can we be #1 or #2 in what we do? If not, why are we doing it?"
+          ]
+        },
+        {
+          name: "Hiring",
+          notes: [
+            "Cohorts: look for little flames, not full fires — they can grow.",
+            "Give new hires something to own immediately.",
+            "5 things you have learned — build a culture of shared learning."
+          ]
+        },
+        {
+          name: "Client & Team Work",
+          notes: [
+            "SOW: I am not limited by the scope or budget but by my imagination.",
+            "Emphasis on connecting with clients — relationships over transactions.",
+            "Recurring meetings: what is recurring and how do we make it better? (Pitch, kickoff, employee onboarding.)"
+          ]
+        },
+        {
+          name: "Key Quotes",
+          notes: [
+            "\"We want owners, not paid hands.\"",
+            "\"10x isn't about the outcome, it's about the practice.\"",
+            "\"Adversity is a terrible thing to waste.\"",
+            "\"Praise is affirmation; crisis is an investment.\"",
+            "\"Luxury means going more; hospitality means being more thoughtful.\""
           ]
         }
       ]
     }
   ];
 
-  const CAT_COLORS = {
-    time:         "#5d8a62",
-    priority:     "#b87c8a",
-    decision:     "#b89a4a",
-    people:       "#b8905a",
-    meetings:     "#7a9e7e",
-    contribution: "#c07878"
-  };
-
+  // ─── Helpers ───────────────────────────────────
   function totalNotes(book) {
     return book.categories.reduce((sum, c) => sum + c.notes.length, 0);
   }
 
-  function coverImg(src, cls) {
-    if (src) {
-      return `<img src="${src}" alt="Book cover" onerror="this.parentElement.innerHTML='<div class=\\'book-cover-placeholder\\'><svg width=\\'28\\' height=\\'28\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1.5\\'><rect x=\\'3\\' y=\\'2\\' width=\\'13\\' height=\\'20\\' rx=\\'1\\'></rect><path d=\\'M16 7h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H7\\'></path></svg></div>'" />`;
-    }
-    return `<div class="book-cover-placeholder">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <rect x="3" y="2" width="13" height="20" rx="1"></rect>
-        <path d="M16 7h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H7"></path>
-      </svg>
-    </div>`;
+  function catColor(book, idx) {
+    return PALETTE[idx % PALETTE.length];
   }
 
+  function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return `${r},${g},${b}`;
+  }
+
+  // ─── Render library ────────────────────────────
   function renderLibrary() {
     const el = document.getElementById("library");
-    document.getElementById("nav-count").textContent = `${BOOKS.length} book${BOOKS.length !== 1 ? "s" : ""}`;
+    document.getElementById("nav-count").textContent =
+      `${BOOKS.length} book${BOOKS.length !== 1 ? "s" : ""}`;
 
     if (!BOOKS.length) {
       el.innerHTML = `<div class="empty"><strong>No books yet.</strong><p>Add your first book to get started.</p></div>`;
@@ -484,8 +612,8 @@
     }
 
     el.innerHTML = BOOKS.map(book => {
-      const dots = book.categories.map(c =>
-        `<span class="cat-dot" style="background:${CAT_COLORS[c.slug] || '#aaa'}" title="${c.name}"></span>`
+      const dots = book.categories.map((c, i) =>
+        `<span class="cat-dot" style="background:${catColor(book,i)}" title="${c.name}"></span>`
       ).join("");
       return `
         <div class="book-card" onclick="showDetail('${book.id}')">
@@ -503,26 +631,42 @@
     }).join("");
   }
 
+  // ─── Render detail ─────────────────────────────
   function showDetail(id) {
     const book = BOOKS.find(b => b.id === id);
     if (!book) return;
 
     document.getElementById("library-view").style.display = "none";
-    const detail = document.getElementById("detail");
-    detail.style.display = "block";
+    document.getElementById("detail").style.display = "block";
 
-    const sections = book.categories.map(cat => `
-      <div class="category-section">
-        <div class="category-header">
-          <span class="category-tag tag-${cat.slug}">${cat.name}</span>
+    const sections = book.categories.map((cat, i) => {
+      const color = catColor(book, i);
+      const rgb = hexToRgb(color);
+      return `
+        <div class="category-section">
+          <div class="category-header">
+            <span class="category-tag" style="--cat-color:${color}; --cat-bg:rgba(${rgb},0.10)">${cat.name}</span>
+          </div>
+          ${cat.notes.map(note =>
+            `<div class="note-card" style="--cat-color:${color}">${note}</div>`
+          ).join("")}
         </div>
-        ${cat.notes.map(note => `<div class="note-card ${cat.slug}">${note}</div>`).join("")}
-      </div>
-    `).join("");
+      `;
+    }).join("");
 
     const coverHtml = book.cover
-      ? `<img src="${book.cover}" alt="Book cover" onerror="this.parentElement.innerHTML='<div class=\\'detail-cover-placeholder\\'><svg width=\\'32\\' height=\\'32\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1.5\\'><rect x=\\'3\\' y=\\'2\\' width=\\'13\\' height=\\'20\\' rx=\\'1\\'></rect></svg></div>'" />`
-      : `<div class="detail-cover-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="13" height="20" rx="1"></rect></svg></div>`;
+      ? `<img src="${book.cover}" alt="Book cover"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+         <div class="detail-cover-placeholder" style="display:none">
+           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+             <rect x="3" y="2" width="13" height="20" rx="1"></rect>
+           </svg>
+         </div>`
+      : `<div class="detail-cover-placeholder">
+           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+             <rect x="3" y="2" width="13" height="20" rx="1"></rect>
+           </svg>
+         </div>`;
 
     document.getElementById("detail-content").innerHTML = `
       <div class="detail-header">
@@ -531,7 +675,10 @@
           <div class="badge">${book.genre}</div>
           <h1>${book.title}</h1>
           <div class="author">${book.author}</div>
-          <div class="detail-stats">${totalNotes(book)} notes &middot; ${book.categories.length} themes${book.dateRead ? " &middot; Read " + book.dateRead : ""}</div>
+          <div class="detail-stats">
+            ${totalNotes(book)} notes &middot; ${book.categories.length} themes
+            ${book.dateRead ? " &middot; Read " + book.dateRead : ""}
+          </div>
         </div>
       </div>
       ${sections}
@@ -539,6 +686,7 @@
     window.scrollTo(0, 0);
   }
 
+  // ─── Show library ──────────────────────────────
   function showLibrary() {
     document.getElementById("library-view").style.display = "block";
     document.getElementById("detail").style.display = "none";
