@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Megan's Reading Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --surface: #ffffff;
+      --surface2: #f0ece4;
+      --border: #e3ddd3;
+      --text: #2a2520;
+      --text-muted: #9a8f82;
+      --accent: #7a9e7e;
+      --accent-soft: rgba(122, 158, 126, 0.13);
+
+      /* Muted category palette */
+      --tag-time:             #5d8a62;
+      --tag-time-bg:          rgba(93, 138, 98, 0.10);
+      --tag-priority:         #b87c8a;
+      --tag-priority-bg:      rgba(184, 124, 138, 0.10);
+      --tag-decision:         #b89a4a;
+      --tag-decision-bg:      rgba(184, 154, 74, 0.10);
+      --tag-people:           #b8905a;
+      --tag-people-bg:        rgba(184, 144, 90, 0.10);
+      --tag-meetings:         #7a9e7e;
+      --tag-meetings-bg:      rgba(122, 158, 126, 0.10);
+      --tag-contribution:     #c07878;
+      --tag-contribution-bg:  rgba(192, 120, 120, 0.10);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter Tight', -apple-system, sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-count {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      width: 100%;
+      min-height: 52vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 40px 80px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 0%, rgba(122,158,126,0.13) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 100%, rgba(184,124,138,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 60% 20%, rgba(184,154,74,0.08) 0%, transparent 50%),
+        var(--bg);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.12s forwards;
+    }
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 380px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.24s forwards;
+    }
+    .hero-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 0 auto 20px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.18s forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── LIBRARY GRID ─── */
+    #library {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    /* ─── BOOK CARD ─── */
+    .book-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .book-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+
+    /* Card body */
+    .book-card-body {
+      padding: 24px 22px 20px;
+    }
+    .book-card-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 5px;
+      padding: 3px 9px;
+      margin-bottom: 10px;
+    }
+    .book-card h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .book-card .author {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .book-card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .book-card-dots {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .cat-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .book-card-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* ─── DETAIL VIEW ─── */
+    #detail {
+      display: none;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 20px 40px 80px;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.83rem;
+      font-family: 'Inter Tight', sans-serif;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 0;
+      margin-bottom: 26px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--text); }
+
+    .detail-header {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      margin-bottom: 36px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-cover {
+      width: 100px;
+      min-width: 100px;
+      height: 140px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .detail-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .detail-cover-placeholder {
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .detail-header-text .badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 5px;
+      padding: 3px 9px;
+      margin-bottom: 10px;
+    }
+    .detail-header-text h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+    .detail-header-text .author {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .detail-header-text .detail-stats {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── CATEGORIES ─── */
+    .category-section { margin-bottom: 34px; }
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .category-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 6px;
+      padding: 4px 11px;
+    }
+    .tag-time         { color: var(--tag-time);         background: var(--tag-time-bg); }
+    .tag-priority     { color: var(--tag-priority);     background: var(--tag-priority-bg); }
+    .tag-decision     { color: var(--tag-decision);     background: var(--tag-decision-bg); }
+    .tag-people       { color: var(--tag-people);       background: var(--tag-people-bg); }
+    .tag-meetings     { color: var(--tag-meetings);     background: var(--tag-meetings-bg); }
+    .tag-contribution { color: var(--tag-contribution); background: var(--tag-contribution-bg); }
+
+    .note-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left-width: 3px;
+      border-radius: 9px;
+      padding: 16px 18px;
+      margin-bottom: 9px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .note-card.time         { border-left-color: var(--tag-time); }
+    .note-card.priority     { border-left-color: var(--tag-priority); }
+    .note-card.decision     { border-left-color: var(--tag-decision); }
+    .note-card.people       { border-left-color: var(--tag-people); }
+    .note-card.meetings     { border-left-color: var(--tag-meetings); }
+    .note-card.contribution { border-left-color: var(--tag-contribution); }
+
+    /* ─── EMPTY STATE ─── */
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 0;
+      color: var(--text-muted);
+    }
+    .empty p { margin-top: 10px; font-size: 0.9rem; }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .hero { padding: 36px 20px 20px; }
+      #library { padding: 0 20px 60px; }
+      #detail { padding: 16px 20px 60px; }
+      .detail-header { flex-direction: column; gap: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#" onclick="showLibrary()">Megan's <span>Reading Notes</span></a>
+  <span class="nav-count" id="nav-count"></span>
+</nav>
+
+<!-- LIBRARY VIEW -->
+<div id="library-view">
+  <div class="hero">
+    <div class="hero-eyebrow">Personal Library</div>
+    <h1>Reading Notes</h1>
+    <div class="hero-divider"></div>
+    <p>Key takeaways from books I'm reading for work.</p>
+  </div>
+  <div id="library"></div>
+</div>
+
+<!-- DETAIL VIEW -->
+<div id="detail">
+  <button class="back-btn" onclick="showLibrary()">&#8592; All Books</button>
+  <div id="detail-content"></div>
+</div>
+
+<script>
+  const BOOKS = [
+    {
+      id: "effective-executive",
+      title: "The Effective Executive",
+      author: "Peter F. Drucker",
+      genre: "Leadership & Management",
+      dateRead: "April 2026",
+      cover: "https://covers.openlibrary.org/b/isbn/0060833459-L.jpg",
+      categories: [
+        {
+          name: "Time Management",
+          slug: "time",
+          notes: [
+            "Time is the scarcest resource, and unless it is managed, nothing else can be managed. Analyzing your time is the one accessible, systematic way to understand your work and what really matters in it.",
+            "The effective executive knows that to manage time, they first must know where it actually goes.",
+            "Every knowledge worker, and especially every executive, needs to dispose of time in fairly large chunks. Small dribs and drabs of time are not sufficient even if the total is an impressive number of hours.",
+            "Effective executives know where their time goes and work systematically at managing what little of it they can control."
+          ]
+        },
+        {
+          name: "Priorities & Focus",
+          slug: "priority",
+          notes: [
+            "If pressures rather than the executive make decisions, the important tasks will predictably be sacrificed. No task is completed until it has become part of organizational action and behavior.",
+            "If the executive lets the flow of events determine what he does and what he takes seriously, he will fritter himself away \"operating.\" What executives need are criteria which enable them to work on the truly important — on contributions and results — even though those criteria are not found in the flow of events.",
+            "People who get nothing done often work harder. They underestimate time required, expect everything to go right, and try to do several things at once. Effective executives do not race — they set an easy pace but keep going steadily.",
+            "\"Sloughing off yesterday\": Effective executives periodically review their work programs and ask — \"If we did not already do this, would we go into it now?\" Unless the answer is an unconditional yes, they drop or curtail the activity sharply. First-class resources, especially scarce human strengths, are immediately pulled out and put to work on tomorrow's opportunities.",
+            "In every area of effectiveness, one feeds the opportunities and starves the problems."
+          ]
+        },
+        {
+          name: "Decision Making",
+          slug: "decision",
+          notes: [
+            "The effective decision-maker always asks: \"Is a decision really necessary?\" One alternative is always the alternative of doing nothing.",
+            "Elements of the effective decision process: (1) Is this a generic situation or an exception? (2) Define the boundary conditions the answer must satisfy. (3) Think through what is \"right\" — the solution that fully satisfies the specifications before considering compromises.",
+            "A decision has not been made until people know: the name of the person accountable for carrying it out; the deadline; the names of people affected who need to understand and approve it; and the names of people who must be informed even if not directly affected."
+          ]
+        },
+        {
+          name: "People & Staffing",
+          slug: "people",
+          notes: [
+            "When staffing, ask: (a) What has he done well? (b) What is he likely to be able to do well? (c) What does he have to learn to get full benefit from his strengths? (d) If I had a son or daughter, would I be willing to have them work under this person?",
+            "It is the executive's duty to ruthlessly remove anyone — especially any manager — who consistently fails to perform with high distinction. Leaving such a person on corrupts others and is senseless cruelty to the person themselves.",
+            "Hire new people to expand on established, smoothly running activity. Start new things with people of tested and proven strength — veterans. An experienced executive will not add the extra gamble of hiring an outsider to take charge of something new.",
+            "An organization needs fresh people with fresh points of view fairly often. But newcomers should be brought in just below the top, into activity that is already defined and reasonably well understood — not into top executive positions or leadership of important new activities.",
+            "Only strength produces results. Weakness only produces headaches — and the absence of weakness produces nothing. The effective executive looks upon people, including himself, as an opportunity."
+          ]
+        },
+        {
+          name: "Meetings",
+          slug: "meetings",
+          notes: [
+            "Meetings should never be allowed to become the main demand on an executive's time. Too many meetings always bespeak poor structure of jobs and poor organization.",
+            "Making a meeting productive requires self-discipline: determine what kind of meeting is appropriate and stick to that format. Terminate as soon as its specific purpose has been accomplished. Good executives don't raise another matter — they sum up and adjourn."
+          ]
+        },
+        {
+          name: "Contribution",
+          slug: "contribution",
+          notes: [
+            "Executives who do not ask themselves \"What can I contribute?\" are not only likely to aim too low, they are likely to aim at the wrong things. Above all, they may define their contribution too narrowly."
+          ]
+        }
+      ]
+    }
+  ];
+
+  const CAT_COLORS = {
+    time:         "#5d8a62",
+    priority:     "#b87c8a",
+    decision:     "#b89a4a",
+    people:       "#b8905a",
+    meetings:     "#7a9e7e",
+    contribution: "#c07878"
+  };
+
+  function totalNotes(book) {
+    return book.categories.reduce((sum, c) => sum + c.notes.length, 0);
+  }
+
+  function coverImg(src, cls) {
+    if (src) {
+      return `<img src="${src}" alt="Book cover" onerror="this.parentElement.innerHTML='<div class=\\'book-cover-placeholder\\'><svg width=\\'28\\' height=\\'28\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1.5\\'><rect x=\\'3\\' y=\\'2\\' width=\\'13\\' height=\\'20\\' rx=\\'1\\'></rect><path d=\\'M16 7h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H7\\'></path></svg></div>'" />`;
+    }
+    return `<div class="book-cover-placeholder">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="2" width="13" height="20" rx="1"></rect>
+        <path d="M16 7h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H7"></path>
+      </svg>
+    </div>`;
+  }
+
+  function renderLibrary() {
+    const el = document.getElementById("library");
+    document.getElementById("nav-count").textContent = `${BOOKS.length} book${BOOKS.length !== 1 ? "s" : ""}`;
+
+    if (!BOOKS.length) {
+      el.innerHTML = `<div class="empty"><strong>No books yet.</strong><p>Add your first book to get started.</p></div>`;
+      return;
+    }
+
+    el.innerHTML = BOOKS.map(book => {
+      const dots = book.categories.map(c =>
+        `<span class="cat-dot" style="background:${CAT_COLORS[c.slug] || '#aaa'}" title="${c.name}"></span>`
+      ).join("");
+      return `
+        <div class="book-card" onclick="showDetail('${book.id}')">
+          <div class="book-card-body">
+            <div class="book-card-badge">${book.genre}</div>
+            <h2>${book.title}</h2>
+            <div class="author">${book.author}</div>
+            <div class="book-card-meta">
+              <div class="book-card-dots">${dots}</div>
+              <span class="book-card-date">${book.dateRead || ""}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function showDetail(id) {
+    const book = BOOKS.find(b => b.id === id);
+    if (!book) return;
+
+    document.getElementById("library-view").style.display = "none";
+    const detail = document.getElementById("detail");
+    detail.style.display = "block";
+
+    const sections = book.categories.map(cat => `
+      <div class="category-section">
+        <div class="category-header">
+          <span class="category-tag tag-${cat.slug}">${cat.name}</span>
+        </div>
+        ${cat.notes.map(note => `<div class="note-card ${cat.slug}">${note}</div>`).join("")}
+      </div>
+    `).join("");
+
+    const coverHtml = book.cover
+      ? `<img src="${book.cover}" alt="Book cover" onerror="this.parentElement.innerHTML='<div class=\\'detail-cover-placeholder\\'><svg width=\\'32\\' height=\\'32\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1.5\\'><rect x=\\'3\\' y=\\'2\\' width=\\'13\\' height=\\'20\\' rx=\\'1\\'></rect></svg></div>'" />`
+      : `<div class="detail-cover-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="13" height="20" rx="1"></rect></svg></div>`;
+
+    document.getElementById("detail-content").innerHTML = `
+      <div class="detail-header">
+        <div class="detail-cover">${coverHtml}</div>
+        <div class="detail-header-text">
+          <div class="badge">${book.genre}</div>
+          <h1>${book.title}</h1>
+          <div class="author">${book.author}</div>
+          <div class="detail-stats">${totalNotes(book)} notes &middot; ${book.categories.length} themes${book.dateRead ? " &middot; Read " + book.dateRead : ""}</div>
+        </div>
+      </div>
+      ${sections}
+    `;
+    window.scrollTo(0, 0);
+  }
+
+  function showLibrary() {
+    document.getElementById("library-view").style.display = "block";
+    document.getElementById("detail").style.display = "none";
+    window.scrollTo(0, 0);
+  }
+
+  renderLibrary();
+</script>
+</body>
+</html>
